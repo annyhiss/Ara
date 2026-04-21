@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Araolowoshibi – Order Form</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rust: #B94A2C;
+    --rust-light: #D4673E;
+    --deep: #2C1A0E;
+    --cream: #FAF5EE;
+    --warm-white: #FFF9F3;
+    --gold: #C98B3A;
+    --gold-light: #E8B96A;
+    --sand: #EDE0CC;
+    --muted: #7A5C44;
+    --text: #2C1A0E;
+    --border: #D9C9B0;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── HERO HEADER ── */
+  header {
+    background: var(--deep);
+    padding: 48px 24px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 60% 40%, rgba(185,74,44,0.35) 0%, transparent 70%),
+                radial-gradient(ellipse at 20% 80%, rgba(201,139,58,0.2) 0%, transparent 60%);
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--rust), var(--gold), var(--rust));
+  }
+  .brand-badge {
+    display: inline-block;
+    border: 1px solid rgba(201,139,58,0.4);
+    padding: 5px 18px;
+    border-radius: 2px;
+    font-family: 'Lato', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 16px;
+    position: relative;
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 6vw, 58px);
+    color: var(--warm-white);
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+    position: relative;
+  }
+  header h1 span {
+    color: var(--gold-light);
+    font-style: italic;
+  }
+  header p {
+    margin-top: 12px;
+    font-size: 14px;
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 1px;
+    font-weight: 300;
+    position: relative;
+  }
+
+  /* ── MAIN WRAPPER ── */
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 48px 20px 80px;
+  }
+
+  /* ── SECTION TITLE ── */
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .section-title h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--deep);
+  }
+  .section-title .line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .section-number {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--rust);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* ── CARD WRAPPER ── */
+  .card {
+    background: var(--warm-white);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    padding: 32px;
+    margin-bottom: 32px;
+    box-shadow: 0 2px 20px rgba(44,26,14,0.06);
+  }
+
+  /* ── FORM FIELDS ── */
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .field-row.single { grid-template-columns: 1fr; }
+  .field-row.phone { grid-template-columns: 120px 1fr; }
+
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .field label .req { color: var(--rust); margin-left: 2px; }
+  .field input, .field textarea, .field select {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 12px 14px;
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+  .field input:focus, .field textarea:focus, .field select:focus {
+    border-color: var(--rust);
+    box-shadow: 0 0 0 3px rgba(185,74,44,0.12);
+  }
+  .field input::placeholder { color: #B8A898; }
+  .field .hint {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .fields-group-label {
+    font-family: 'Lato', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+    display: block;
+  }
+  .phone-group {
+    margin-bottom: 24px;
+  }
+  .phone-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+  }
+  .phone-label-row .req-badge {
+    font-size: 10px;
+    color: var(--rust);
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+
+  /* ── FOOD ITEMS ── */
+  .food-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .food-header h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+  }
+  .food-header .subtitle {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .food-item {
+    display: grid;
+    grid-template-columns: auto 80px 1fr auto;
+    gap: 16px;
+    align-items: start;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s;
+  }
+  .food-item:last-of-type { border-bottom: none; padding-bottom: 0; }
+
+  .food-check {
+    width: 20px; height: 20px;
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    margin-top: 2px;
+    flex-shrink: 0;
+    transition: all 0.2s;
+    background: var(--cream);
+    position: relative;
+  }
+  .food-check:checked {
+    background: var(--rust);
+    border-color: var(--rust);
+  }
+  .food-check:checked::after {
+    content: '';
+    position: absolute;
+    left: 5px; top: 2px;
+    width: 6px; height: 10px;
+    border: 2px solid white;
+    border-top: none; border-left: none;
+    transform: rotate(45deg);
+  }
+
+  .food-img {
+    width: 80px; height: 70px;
+    object-fit: cover;
+    border-radius: 6px;
+    filter: saturate(1.1);
+  }
+  .food-img-placeholder {
+    width: 80px; height: 70px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+    background: linear-gradient(135deg, #E8D5BB, #D4C0A0);
+  }
+
+  .food-details { flex: 1; }
+  .food-details h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--deep);
+    margin-bottom: 3px;
+  }
+  .food-details .desc {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+
+  .food-options { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+  .food-options select {
+    border: 1px solid var(--border);
+    background: var(--cream);
+    border-radius: 4px;
+    padding: 5px 24px 5px 10px;
+    font-size: 12px;
+    font-family: 'Lato', sans-serif;
+    color: var(--text);
+    cursor: pointer;
+    outline: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%237A5C44'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+  }
+  .qty-row { display: flex; align-items: center; gap: 8px; }
+  .qty-label { font-size: 12px; color: var(--muted); }
+  .qty-row select { width: 65px; }
+
+  .food-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--rust);
+    white-space: nowrap;
+  }
+
+  /* Extras table */
+  .extras-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+  .extras-table th {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 700;
+    text-align: left;
+    padding: 4px 8px 8px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .extras-table td {
+    padding: 8px 8px 4px 0;
+    font-size: 13px;
+    vertical-align: middle;
+  }
+  .extras-table td:first-child { font-weight: 700; color: var(--deep); }
+  .extras-table td.price-cell { color: var(--rust); font-weight: 700; }
+  .extras-table select { width: 65px; }
+
+  /* ── SUBTOTALS ── */
+  .item-subtotal {
+    text-align: right;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--border);
+  }
+  .item-subtotal span { color: var(--deep); font-weight: 700; font-size: 13px; }
+
+  /* ── ORDER TOTAL ── */
+  .total-bar {
+    background: var(--deep);
+    border-radius: 8px;
+    padding: 20px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 32px;
+  }
+  .total-bar .label {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    color: rgba(255,255,255,0.7);
+    font-style: italic;
+  }
+  .total-bar .amount {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--gold-light);
+  }
+
+  /* ── NOTE FIELD ── */
+  .field textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  /* ── BANK DETAILS ── */
+  .bank-card {
+    background: linear-gradient(135deg, var(--deep) 0%, #3D2210 100%);
+    border-radius: 8px;
+    padding: 28px 32px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .bank-card::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    background: rgba(201,139,58,0.1);
+  }
+  .bank-card::after {
+    content: '';
+    position: absolute;
+    bottom: -30px; left: -30px;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: rgba(185,74,44,0.12);
+  }
+  .bank-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-style: italic;
+    color: var(--gold-light);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+    position: relative;
+  }
+  .bank-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 10px;
+    position: relative;
+    align-items: baseline;
+  }
+  .bank-row:last-child { margin-bottom: 0; }
+  .bank-key {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    font-weight: 700;
+    min-width: 90px;
+    flex-shrink: 0;
+  }
+  .bank-val {
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+    color: rgba(255,255,255,0.9);
+    font-weight: 300;
+    letter-spacing: 0.5px;
+  }
+  .bank-val.iban {
+    font-family: 'Courier New', monospace;
+    letter-spacing: 2px;
+    font-size: 13px;
+    color: var(--gold-light);
+  }
+  .bank-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.1);
+    margin: 16px 0;
+    position: relative;
+  }
+
+  /* ── SUBMIT BUTTON ── */
+  .submit-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--rust) 0%, var(--rust-light) 100%);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 18px;
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-style: italic;
+    cursor: pointer;
+    transition: all 0.25s;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+  }
+  .submit-btn::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%; width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    transition: left 0.4s;
+  }
+  .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(185,74,44,0.4); }
+  .submit-btn:hover::before { left: 100%; }
+  .submit-btn:active { transform: translateY(0); }
+
+  /* ── TOAST ── */
+  #toast {
+    position: fixed;
+    bottom: 32px; right: 32px;
+    background: var(--deep);
+    color: white;
+    padding: 14px 24px;
+    border-radius: 6px;
+    font-size: 14px;
+    border-left: 4px solid var(--gold);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s;
+    pointer-events: none;
+    z-index: 999;
+    max-width: 320px;
+  }
+  #toast.show { opacity: 1; transform: translateY(0); }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 24px;
+    font-size: 12px;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    background: var(--sand);
+  }
+  footer strong { color: var(--rust); }
+
+  /* ── VALIDATION ── */
+  .field input.error, .field input.error:focus { border-color: var(--rust); box-shadow: 0 0 0 3px rgba(185,74,44,0.15); }
+  .error-msg { font-size: 11px; color: var(--rust); margin-top: 3px; display: none; }
+  .error-msg.show { display: block; }
+
+  @media (max-width: 560px) {
+    .card { padding: 20px 16px; }
+    .food-item { grid-template-columns: auto 64px 1fr auto; gap: 10px; }
+    .food-img, .food-img-placeholder { width: 64px; height: 58px; }
+    .field-row { grid-template-columns: 1fr; }
+    .field-row.phone { grid-template-columns: 100px 1fr; }
+    .total-bar { padding: 16px 20px; }
+    .bank-card { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand-badge">Lagos · Nigeria</div>
+  <h1>Araolo<span>woshibi</span></h1>
+  <p>Place your food order below — we'll prepare it with love</p>
+</header>
+
+<div class="container">
+
+  <!-- ── CONTACT DETAILS ── -->
+  <div class="section-title">
+    <div class="section-number">1</div>
+    <h2>Your Details</h2>
+    <div class="line"></div>
+  </div>
+
+  <div class="card">
+    <!-- Full Name -->
+    <div class="field-row">
+      <div class="field">
+        <label>First Name <span class="req">*</span></label>
+        <input type="text" id="firstName" placeholder="First name" autocomplete="given-name">
+        <span class="error-msg" id="firstNameErr">Please enter your first name</span>
+      </div>
+      <div class="field">
+        <label>Last Name <span class="req">*</span></label>
+        <input type="text" id="lastName" placeholder="Last name" autocomplete="family-name">
+        <span class="error-msg" id="lastNameErr">Please enter your last name</span>
+      </div>
+    </div>
+
+    <!-- Phone Number -->
+    <div class="phone-group">
+      <div class="phone-label-row">
+        <span class="fields-group-label">Phone Number <span class="req">*</span></span>
+      </div>
+      <div class="field-row phone" style="margin-bottom:0;">
+        <div class="field">
+          <input type="text" id="phoneCode" placeholder="+234" maxlength="6">
+          <span class="hint">Country code</span>
+        </div>
+        <div class="field">
+          <input type="tel" id="phoneNum" placeholder="Phone number" autocomplete="tel">
+          <span class="error-msg" id="phoneErr">Please enter your phone number</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Other Phone Number -->
+    <div class="phone-group">
+      <div class="phone-label-row">
+        <span class="fields-group-label">Other Phone Number</span>
+        <span style="font-size:11px;color:var(--muted);">optional</span>
+      </div>
+      <div class="field-row phone" style="margin-bottom:0;">
+        <div class="field">
+          <input type="text" id="phone2Code" placeholder="+234" maxlength="6">
+          <span class="hint">Country code</span>
+        </div>
+        <div class="field">
+          <input type="tel" id="phone2Num" placeholder="Phone number">
+        </div>
+      </div>
+    </div>
+
+    <!-- Email -->
+    <div class="field-row single" style="margin-bottom:0;">
+      <div class="field">
+        <label>E-mail <span class="req">*</span></label>
+        <input type="email" id="email" placeholder="ex: myname@example.com" autocomplete="email">
+        <span class="hint">example@example.com</span>
+        <span class="error-msg" id="emailErr">Please enter a valid email address</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FOOD SELECTION ── -->
+  <div class="section-title">
+    <div class="section-number">2</div>
+    <h2>My Products</h2>
+    <div class="line"></div>
+  </div>
+
+  <div class="card">
+    <p style="font-size:13px;color:var(--muted);margin-bottom:20px;">Check the items you'd like to order. Totals update automatically.</p>
+
+    <!-- ABULA -->
+    <div class="food-item">
+      <input type="checkbox" class="food-check" id="chkAbula" onchange="updateTotals()">
+      <div class="food-img-placeholder">🍲</div>
+      <div class="food-details">
+        <h4>Abula</h4>
+        <p class="desc">Amala, Stew, Ewedu &amp; Gbegiri with Goat Meat</p>
+        <div class="food-options">
+          <select id="abulaStew" onchange="updateTotals()">
+            <option>Stew</option>
+            <option>No Stew</option>
+          </select>
+          <select id="abulaEwedu" onchange="updateTotals()">
+            <option>Ewedu</option>
+            <option>No Ewedu</option>
+          </select>
+          <select id="abulaGbegiri" onchange="updateTotals()">
+            <option>Gbegiri</option>
+            <option>No Gbegiri</option>
+          </select>
+        </div>
+        <div class="qty-row">
+          <span class="qty-label">Quantity</span>
+          <select id="abulaQty" onchange="updateTotals()">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </div>
+        <div class="item-subtotal" id="abulaSubtotalRow" style="display:none;">
+          Item subtotal: <span id="abulaSubtotal">€0.00</span>
+        </div>
+      </div>
+      <div class="food-price">€18.00</div>
+    </div>
+
+    <!-- EXTRAS -->
+    <div class="food-item">
+      <input type="checkbox" class="food-check" id="chkExtras" onchange="updateTotals()">
+      <div class="food-img-placeholder">🍖</div>
+      <div class="food-details">
+        <h4>Extras</h4>
+        <p class="desc">Choose your protein add-ons</p>
+        <table class="extras-table">
+          <thead>
+            <tr>
+              <th>Protein Type</th>
+              <th>Quantity</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Fresh Fish</td>
+              <td>
+                <select id="fishQty" onchange="updateTotals()">
+                  <option value="0">0</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                </select>
+              </td>
+              <td class="price-cell">€8.00</td>
+            </tr>
+            <tr>
+              <td>Ponmo</td>
+              <td>
+                <select id="ponmoQty" onchange="updateTotals()">
+                  <option value="0">0</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                </select>
+              </td>
+              <td class="price-cell">€5.00</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="item-subtotal" id="extrasSubtotalRow" style="display:none;">
+          Item subtotal: <span id="extrasSubtotal">€0.00</span>
+        </div>
+      </div>
+      <div class="food-price">€8.00</div>
+    </div>
+
+  </div>
+
+  <!-- ── TOTAL ── -->
+  <div class="total-bar">
+    <span class="label">Order Total</span>
+    <span class="amount" id="grandTotal">€0.00</span>
+  </div>
+
+  <!-- ── CHEF NOTE ── -->
+  <div class="section-title">
+    <div class="section-number">3</div>
+    <h2>Note for the Chef</h2>
+    <div class="line"></div>
+  </div>
+  <div class="card" style="margin-bottom:32px;">
+    <div class="field">
+      <label>Special Instructions</label>
+      <textarea id="chefNote" placeholder="Allergies, preferences, spice level… anything you'd like us to know."></textarea>
+    </div>
+  </div>
+
+  <!-- ── BANK DETAILS ── -->
+  <div class="bank-card">
+    <h3>💳 Payment Details</h3>
+    <div class="bank-row">
+      <span class="bank-key">Account</span>
+      <span class="bank-val">Euro Account</span>
+    </div>
+    <div class="bank-divider"></div>
+    <div class="bank-row">
+      <span class="bank-key">Beneficiary</span>
+      <span class="bank-val">Abimbola Faith Abiola</span>
+    </div>
+    <div class="bank-row">
+      <span class="bank-key">IBAN</span>
+      <span class="bank-val iban">LT45 3250 0568 4267 6610</span>
+    </div>
+    <div class="bank-row">
+      <span class="bank-key">BIC</span>
+      <span class="bank-val iban">REVOLT21</span>
+    </div>
+    <div style="margin-top:16px;font-size:11px;color:rgba(255,255,255,0.4);position:relative;">
+      Please use your full name as the payment reference.
+    </div>
+  </div>
+
+  <!-- ── SUBMIT ── -->
+  <button class="submit-btn" onclick="submitOrder()">
+    Place My Order →
+  </button>
+
+</div>
+
+<footer>
+  © 2026 <strong>Araolowoshibi</strong> · All orders are handled with care
+</footer>
+
+<div id="toast"></div>
+
+<script>
+  function fmt(n) {
+    return '€' + n.toFixed(2);
+  }
+
+  function updateTotals() {
+    let grand = 0;
+
+    // Abula
+    const abulaOn = document.getElementById('chkAbula').checked;
+    const abulaQty = parseInt(document.getElementById('abulaQty').value);
+    const abulaTotal = abulaOn ? 18 * abulaQty : 0;
+    const abulaSubRow = document.getElementById('abulaSubtotalRow');
+    if (abulaOn) {
+      abulaSubRow.style.display = 'block';
+      document.getElementById('abulaSubtotal').textContent = fmt(abulaTotal);
+    } else {
+      abulaSubRow.style.display = 'none';
+    }
+    grand += abulaTotal;
+
+    // Extras
+    const extrasOn = document.getElementById('chkExtras').checked;
+    const fishQty = parseInt(document.getElementById('fishQty').value);
+    const ponmoQty = parseInt(document.getElementById('ponmoQty').value);
+    const extrasTotal = extrasOn ? (fishQty * 8 + ponmoQty * 5) : 0;
+    const extrasSubRow = document.getElementById('extrasSubtotalRow');
+    if (extrasOn) {
+      extrasSubRow.style.display = 'block';
+      document.getElementById('extrasSubtotal').textContent = fmt(extrasTotal);
+    } else {
+      extrasSubRow.style.display = 'none';
+    }
+    grand += extrasTotal;
+
+    document.getElementById('grandTotal').textContent = fmt(grand);
+  }
+
+  function showToast(msg, duration = 4000) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), duration);
+  }
+
+  function validate() {
+    let ok = true;
+    const fields = [
+      { id: 'firstName', errId: 'firstNameErr' },
+      { id: 'lastName', errId: 'lastNameErr' },
+      { id: 'phoneNum', errId: 'phoneErr' },
+      { id: 'email', errId: 'emailErr' },
+    ];
+    fields.forEach(f => {
+      const el = document.getElementById(f.id);
+      const err = document.getElementById(f.errId);
+      const val = el.value.trim();
+      let fieldOk = val.length > 0;
+      if (f.id === 'email') {
+        fieldOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+      }
+      el.classList.toggle('error', !fieldOk);
+      err.classList.toggle('show', !fieldOk);
+      if (!fieldOk) ok = false;
+    });
+
+    // At least one item
+    const anyItem = document.getElementById('chkAbula').checked || document.getElementById('chkExtras').checked;
+    if (!anyItem) {
+      showToast('⚠️ Please select at least one food item.');
+      ok = false;
+    }
+    return ok;
+  }
+
+  function buildOrderSummary() {
+    const lines = [];
+    if (document.getElementById('chkAbula').checked) {
+      const qty = document.getElementById('abulaQty').value;
+      const stew = document.getElementById('abulaStew').value;
+      const ewedu = document.getElementById('abulaEwedu').value;
+      const gbegiri = document.getElementById('abulaGbegiri').value;
+      lines.push(`Abula x${qty} (${stew}, ${ewedu}, ${gbegiri}) — €${(18 * parseInt(qty)).toFixed(2)}`);
+    }
+    if (document.getElementById('chkExtras').checked) {
+      const fish = parseInt(document.getElementById('fishQty').value);
+      const ponmo = parseInt(document.getElementById('ponmoQty').value);
+      const extParts = [];
+      if (fish > 0) extParts.push(`Fresh Fish x${fish} (€${(fish * 8).toFixed(2)})`);
+      if (ponmo > 0) extParts.push(`Ponmo x${ponmo} (€${(ponmo * 5).toFixed(2)})`);
+      if (extParts.length) lines.push('Extras: ' + extParts.join(', '));
+    }
+    return lines.join('\n');
+  }
+
+  function submitOrder() {
+    if (!validate()) return;
+
+    const firstName = document.getElementById('firstName').value.trim();
+    const lastName = document.getElementById('lastName').value.trim();
+    const phoneCode = document.getElementById('phoneCode').value.trim();
+    const phoneNum = document.getElementById('phoneNum').value.trim();
+    const phone2Code = document.getElementById('phone2Code').value.trim();
+    const phone2Num = document.getElementById('phone2Num').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const note = document.getElementById('chefNote').value.trim();
+    const total = document.getElementById('grandTotal').textContent;
+    const orderSummary = buildOrderSummary();
+
+    const body = [
+      '═══════════════════════════════',
+      '   NEW ORDER — ARAOLOWOSHIBI',
+      '═══════════════════════════════',
+      '',
+      '👤 CUSTOMER DETAILS',
+      `Name: ${firstName} ${lastName}`,
+      `Phone: ${phoneCode} ${phoneNum}`,
+      phone2Num ? `Other Phone: ${phone2Code} ${phone2Num}` : '',
+      `Email: ${email}`,
+      '',
+      '🍲 ORDER',
+      orderSummary,
+      '',
+      `TOTAL: ${total}`,
+      '',
+      note ? `📝 Note for Chef:\n${note}` : '',
+      '',
+      '═══════════════════════════════',
+    ].filter(l => l !== undefined && !(l === '' && !l)).join('\n');
+
+    const subject = encodeURIComponent(`New Order from ${firstName} ${lastName} — Araolowoshibi`);
+    const bodyEncoded = encodeURIComponent(body);
+
+    window.location.href = `mailto:info4tosin@gmail.com?subject=${subject}&body=${bodyEncoded}`;
+
+    showToast('✅ Your email app is opening to send the order. Thank you!', 5000);
+  }
+</script>
+</body>
+</html>
